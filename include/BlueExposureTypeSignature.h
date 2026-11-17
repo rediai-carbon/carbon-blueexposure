@@ -690,6 +690,9 @@ struct TypeSignature<unsigned long>
 	}
 };
 #else
+// glibc LP64 typedefs int64_t to long, so TypeSignature<int64_t> already covers it.
+// macOS keeps this specialization because int64_t is long long there.
+#if !defined(__linux__) || !defined(__LP64__)
 template <>
 struct TypeSignature<long>
 {
@@ -702,6 +705,7 @@ struct TypeSignature<long>
 		return "long";
 	}
 };
+#endif
 #endif
 
 template <>

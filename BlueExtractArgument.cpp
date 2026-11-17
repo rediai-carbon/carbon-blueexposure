@@ -496,6 +496,8 @@ bool BLUEIMPORT BlueExtractArgumentImpl( PyObject* argument, unsigned long& resu
 	return true;
 }
 #else
+// glibc LP64 typedefs int64_t to long, so the int64_t overload is this function.
+#if !defined(__linux__) || !defined(__LP64__)
 bool BLUEIMPORT BlueExtractArgumentImpl( PyObject* argument, long& result, unsigned int argID, std::false_type isBlueType )
 {
     if( PyLong_Check(argument) )
@@ -510,6 +512,7 @@ bool BLUEIMPORT BlueExtractArgumentImpl( PyObject* argument, long& result, unsig
     
     return true;
 }
+#endif
 
 #endif
 

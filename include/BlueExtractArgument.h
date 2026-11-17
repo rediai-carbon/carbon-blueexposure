@@ -100,7 +100,10 @@ bool BLUEIMPORT BlueExtractArgumentImpl( BlueScriptValue argument, Matrix& resul
 #ifdef _MSC_VER
 bool BLUEIMPORT BlueExtractArgumentImpl( BlueScriptValue argument, unsigned long& result, unsigned int argID, std::false_type isBlueType );
 #else
+// glibc LP64 typedefs int64_t to long, so the int64_t overload is this function.
+#if !defined(__linux__) || !defined(__LP64__)
 bool BLUEIMPORT BlueExtractArgumentImpl( BlueScriptValue argument, long& result, unsigned int argID, std::false_type isBlueType );
+#endif
 #endif
 
 // Special care for enums
